@@ -24,6 +24,16 @@
     <string name="btn_registrar">Registrar Denuncia</string>
     <string name="registro_exito_formato">Denuncia #%d registrada con éxito</string>
 
+    <!-- Detalle -->
+    <string name="btn_atender">Atender denuncia</string>
+    <string name="atendida_exito">Denuncia marcada como atendida</string>
+    <string name="label_id">Denuncia #%d</string>
+    <string name="label_dni_ciudadano">DNI del Ciudadano</string>
+    <string name="label_fecha">Fecha de Registro</string>
+    <string name="label_tipo_hecho">Tipo de Hecho</string>
+    <string name="label_ubicacion">Dirección</string>
+    <string name="label_detalle_descripcion">Descripción</string>
+
     <!-- Tipos de denuncia (ALCANCE §4.1) -->
     <string-array name="tipos_denuncia">
         <item>ROBO</item>
