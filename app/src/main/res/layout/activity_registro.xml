@@ -1,154 +1,300 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#F8FAFC">
+    android:background="@color/background">
 
-    <LinearLayout
+    <!-- AppBar con Toolbar y Progress -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:background="@color/surface"
+        app:elevation="2dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/titulo_registro"
-            android:textColor="@color/black"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_atras"
+            app:navigationContentDescription="@string/desc_navegar_atras"
+            app:title="@string/titulo_registro"
+            app:titleTextColor="@color/text_primary" />
 
-        <!-- Campo DNI -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilDni"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBarIndeterminate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:hint="@string/label_dni"
-            app:counterEnabled="true"
-            app:counterMaxLength="8"
-            app:errorEnabled="true">
+            android:indeterminate="true"
+            android:visibility="gone" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etDni"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="8" />
-        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <!-- Spinner Tipo -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:text="@string/label_tipo"
-            android:textColor="@color/gray_text"
-            android:textSize="14sp" />
+    <!-- Contenido scrolleable -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <Spinner
-            android:id="@+id/spinnerTipo"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/card_stroke_bg"
-            android:entries="@array/tipos_denuncia"
-            android:paddingHorizontal="12dp" />
-
-        <!-- Campo Dirección -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilDireccion"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:hint="@string/label_direccion"
-            app:counterEnabled="true"
-            app:counterMaxLength="200"
-            app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etDireccion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapSentences"
-                android:maxLength="200" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Campo Descripción -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilDescripcion"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:hint="@string/label_descripcion"
-            app:counterEnabled="true"
-            app:counterMaxLength="255"
-            app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etDescripcion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top|start"
-                android:inputType="textMultiLine|textCapSentences"
-                android:lines="4"
-                android:maxLength="255" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Mensaje de error general -->
-        <TextView
-            android:id="@+id/tvError"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:textColor="#DC2626"
-            android:textSize="14sp"
-            android:visibility="gone"
-            tools:text="Error al registrar la denuncia"
-            tools:visibility="visible" />
-
-        <!-- Indicador de carga y demora -->
         <LinearLayout
-            android:id="@+id/layoutCargando"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="vertical"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="120dp">
 
-            <ProgressBar
-                android:layout_width="36dp"
-                android:layout_height="36dp" />
+            <!-- Sección: ¿Quién denuncia? -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/surface"
+                app:strokeColor="@color/outline"
+                app:strokeWidth="1dp">
 
-            <TextView
-                android:id="@+id/tvAvisoDemora"
-                android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="@string/seccion_quien"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilDni"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/label_dni"
+                        app:startIconDrawable="@drawable/ic_persona"
+                        app:startIconTint="@color/text_secondary"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="8"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDni"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLength="8" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Sección: ¿Qué pasó? -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/surface"
+                app:strokeColor="@color/outline"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="@string/seccion_que_paso"
+                        android:textColor="@color/text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/label_tipo"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="13sp" />
+
+                    <!-- ChipGroup de selección única -->
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupTipo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:singleSelection="true"
+                        app:selectionRequired="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipTipoRobo"
+                            style="@style/Widget.DenunciasApp.Chip.Filtro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="Robo"
+                            app:chipIcon="@drawable/ic_robo" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipTipoAsalto"
+                            style="@style/Widget.DenunciasApp.Chip.Filtro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Asalto"
+                            app:chipIcon="@drawable/ic_asalto" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipTipoVandalismo"
+                            style="@style/Widget.DenunciasApp.Chip.Filtro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Vandalismo"
+                            app:chipIcon="@drawable/ic_vandalismo" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipTipoAcoso"
+                            style="@style/Widget.DenunciasApp.Chip.Filtro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Acoso"
+                            app:chipIcon="@drawable/ic_acoso" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipTipoOtro"
+                            style="@style/Widget.DenunciasApp.Chip.Filtro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Otro"
+                            app:chipIcon="@drawable/ic_otro" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <!-- Dirección -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilDireccion"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:hint="@string/label_direccion"
+                        app:startIconDrawable="@drawable/ic_ubicacion"
+                        app:startIconTint="@color/text_secondary"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="200"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDireccion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:maxLength="200" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Descripción -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilDescripcion"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/label_descripcion"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="255"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDescripcion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top|start"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:lines="4"
+                            android:maxLength="255" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Aviso demora servidor > 5 s -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAvisoDemora"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="@string/aviso_demora_servidor"
-                android:textColor="@color/gray_text"
-                android:textSize="12sp"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/outline"
+                app:strokeWidth="1dp"
+                app:cardBackgroundColor="@color/surface_variant">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/ic_alerta"
+                        app:tint="@color/estado_pendiente" />
+
+                    <TextView
+                        android:id="@+id/tvAvisoDemora"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="@string/aviso_demora_servidor"
+                        android:textColor="@color/text_primary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
 
-        <!-- Botón Registrar -->
-        <Button
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Barra inferior con botón fijo de 56 dp -->
+    <LinearLayout
+        android:id="@+id/layoutBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/surface"
+        android:elevation="6dp"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegistrar"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
-            android:layout_height="54dp"
+            android:layout_height="56dp"
             android:text="@string/btn_registrar"
             android:textSize="16sp" />
 
     </LinearLayout>
 
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

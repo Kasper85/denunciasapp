@@ -18,6 +18,8 @@
     <string name="sin_denuncias">Aún no hay denuncias registradas</string>
     <string name="btn_registrar_primera">Registrar la primera</string>
     <string name="error_generico">Ocurrió un error al cargar los datos</string>
+    <string name="error_dni_invalido">El DNI debe tener exactamente 8 dígitos</string>
+    <string name="error_campo_requerido">Este campo es obligatorio</string>
 
     <!-- Filtros de lista -->
     <string name="filtro_todas">Todas</string>

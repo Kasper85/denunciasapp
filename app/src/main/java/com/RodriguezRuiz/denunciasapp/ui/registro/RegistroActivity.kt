@@ -1,17 +1,23 @@
 package com.RodriguezRuiz.denunciasapp.ui.registro
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.RodriguezRuiz.denunciasapp.R
 import com.RodriguezRuiz.denunciasapp.databinding.ActivityRegistroBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,21 +30,48 @@ class RegistroActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = ActivityRegistroBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = getString(R.string.titulo_registro)
-
+        setupInsets()
+        setupToolbar()
         setupListeners()
+        setupValidationListeners()
         observeViewModel()
+    }
+
+    private fun setupInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.coordinatorLayout) { _, insets ->
+            val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+
+            binding.appBarLayout.setPadding(0, statusBar.top, 0, 0)
+
+            val baseBottomPadding = (12 * resources.displayMetrics.density).toInt()
+            binding.layoutBottomBar.setPadding(
+                binding.layoutBottomBar.paddingLeft,
+                binding.layoutBottomBar.paddingTop,
+                binding.layoutBottomBar.paddingRight,
+                baseBottomPadding + navBar.bottom
+            )
+            insets
+        }
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
     }
 
     private fun setupListeners() {
         binding.btnRegistrar.setOnClickListener {
+            hideKeyboard()
             limpiarErrores()
+
             val dni = binding.etDni.text?.toString().orEmpty()
-            val tipo = binding.spinnerTipo.selectedItem?.toString().orEmpty()
+            val tipo = obtenerTipoSeleccionado()
             val direccion = binding.etDireccion.text?.toString().orEmpty()
             val descripcion = binding.etDescripcion.text?.toString().orEmpty()
 
@@ -51,11 +84,83 @@ class RegistroActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupValidationListeners() {
+        binding.etDni.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val dni = binding.etDni.text?.toString().orEmpty()
+                if (dni.isNotEmpty() && dni.length != 8) {
+                    binding.tilDni.error = getString(R.string.error_dni_invalido)
+                }
+            }
+        }
+        binding.etDni.doAfterTextChanged {
+            if (binding.tilDni.error != null && it?.length == 8) {
+                binding.tilDni.error = null
+            }
+        }
+
+        binding.etDireccion.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val dir = binding.etDireccion.text?.toString().orEmpty()
+                if (dir.isBlank()) {
+                    binding.tilDireccion.error = getString(R.string.error_campo_requerido)
+                }
+            }
+        }
+        binding.etDireccion.doAfterTextChanged {
+            if (binding.tilDireccion.error != null && !it.isNullOrBlank()) {
+                binding.tilDireccion.error = null
+            }
+        }
+
+        binding.etDescripcion.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val desc = binding.etDescripcion.text?.toString().orEmpty()
+                if (desc.isBlank()) {
+                    binding.tilDescripcion.error = getString(R.string.error_campo_requerido)
+                }
+            }
+        }
+        binding.etDescripcion.doAfterTextChanged {
+            if (binding.tilDescripcion.error != null && !it.isNullOrBlank()) {
+                binding.tilDescripcion.error = null
+            }
+        }
+    }
+
+    private fun obtenerTipoSeleccionado(): String {
+        return when (binding.chipGroupTipo.checkedChipId) {
+            R.id.chipTipoAsalto -> "ASALTO"
+            R.id.chipTipoVandalismo -> "VANDALISMO"
+            R.id.chipTipoAcoso -> "ACOSO"
+            R.id.chipTipoOtro -> "OTRO"
+            else -> "ROBO"
+        }
+    }
+
+    private fun setInputsEnabled(enabled: Boolean) {
+        binding.etDni.isEnabled = enabled
+        binding.chipGroupTipo.isEnabled = enabled
+        binding.chipTipoRobo.isEnabled = enabled
+        binding.chipTipoAsalto.isEnabled = enabled
+        binding.chipTipoVandalismo.isEnabled = enabled
+        binding.chipTipoAcoso.isEnabled = enabled
+        binding.chipTipoOtro.isEnabled = enabled
+        binding.etDireccion.isEnabled = enabled
+        binding.etDescripcion.isEnabled = enabled
+        binding.btnRegistrar.isEnabled = enabled
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        val currentFocusView = currentFocus ?: binding.root
+        imm?.hideSoftInputFromWindow(currentFocusView.windowToken, 0)
+    }
+
     private fun limpiarErrores() {
         binding.tilDni.error = null
         binding.tilDireccion.error = null
         binding.tilDescripcion.error = null
-        binding.tvError.visibility = View.GONE
     }
 
     private fun observeViewModel() {
@@ -72,24 +177,26 @@ class RegistroActivity : AppCompatActivity() {
         when (state) {
             is RegistroUiState.Idle -> {
                 jobAvisoDemora?.cancel()
-                binding.btnRegistrar.isEnabled = true
-                binding.layoutCargando.visibility = View.GONE
+                setInputsEnabled(true)
+                binding.progressBarIndeterminate.visibility = View.GONE
+                binding.cardAvisoDemora.visibility = View.GONE
             }
             is RegistroUiState.Cargando -> {
-                binding.btnRegistrar.isEnabled = false
-                binding.layoutCargando.visibility = View.VISIBLE
-                binding.tvAvisoDemora.visibility = View.GONE
+                setInputsEnabled(false)
+                binding.progressBarIndeterminate.visibility = View.VISIBLE
+                binding.cardAvisoDemora.visibility = View.GONE
 
                 jobAvisoDemora?.cancel()
                 jobAvisoDemora = lifecycleScope.launch {
                     delay(5000L)
-                    binding.tvAvisoDemora.visibility = View.VISIBLE
+                    binding.cardAvisoDemora.visibility = View.VISIBLE
                 }
             }
             is RegistroUiState.ErrorValidacion -> {
                 jobAvisoDemora?.cancel()
-                binding.btnRegistrar.isEnabled = true
-                binding.layoutCargando.visibility = View.GONE
+                setInputsEnabled(true)
+                binding.progressBarIndeterminate.visibility = View.GONE
+                binding.cardAvisoDemora.visibility = View.GONE
 
                 val mensaje = state.mensaje
                 when {
@@ -106,22 +213,27 @@ class RegistroActivity : AppCompatActivity() {
                         binding.etDescripcion.requestFocus()
                     }
                     else -> {
-                        binding.tvError.text = mensaje
-                        binding.tvError.visibility = View.VISIBLE
+                        Snackbar.make(binding.coordinatorLayout, mensaje, Snackbar.LENGTH_LONG).show()
                     }
                 }
             }
             is RegistroUiState.ErrorServidor -> {
                 jobAvisoDemora?.cancel()
-                binding.btnRegistrar.isEnabled = true
-                binding.layoutCargando.visibility = View.GONE
-                binding.tvError.text = state.mensaje
-                binding.tvError.visibility = View.VISIBLE
+                setInputsEnabled(true)
+                binding.progressBarIndeterminate.visibility = View.GONE
+                binding.cardAvisoDemora.visibility = View.GONE
+
+                Snackbar.make(binding.coordinatorLayout, state.mensaje, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.btn_reintentar) {
+                        binding.btnRegistrar.performClick()
+                    }
+                    .show()
             }
             is RegistroUiState.Exito -> {
                 jobAvisoDemora?.cancel()
-                binding.layoutCargando.visibility = View.GONE
-                binding.btnRegistrar.isEnabled = false
+                binding.progressBarIndeterminate.visibility = View.GONE
+                binding.cardAvisoDemora.visibility = View.GONE
+                setInputsEnabled(false)
 
                 val mensaje = getString(R.string.registro_exito_formato, state.idDenuncia)
                 Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
@@ -130,14 +242,6 @@ class RegistroActivity : AppCompatActivity() {
                 finish()
             }
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {
