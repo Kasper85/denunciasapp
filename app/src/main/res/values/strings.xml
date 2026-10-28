@@ -34,6 +34,12 @@
     <string name="label_ubicacion">Dirección</string>
     <string name="label_detalle_descripcion">Descripción</string>
 
+    <!-- Búsqueda -->
+    <string name="hint_ingrese_dni">DNI (8 dígitos)</string>
+    <string name="btn_buscar">Buscar</string>
+    <string name="sin_denuncias_dni">Sin denuncias para este DNI</string>
+    <string name="ingrese_dni_para_buscar">Ingrese un DNI de 8 dígitos para consultar sus denuncias</string>
+
     <!-- Tipos de denuncia (ALCANCE §4.1) -->
     <string-array name="tipos_denuncia">
         <item>ROBO</item>
