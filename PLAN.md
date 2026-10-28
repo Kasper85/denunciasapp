@@ -62,12 +62,12 @@
 **Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 18s (tests de DetalleViewModelTest verdes, app-debug.apk generado). Commit 991ea9a.
 
 ## F5 · app-busqueda — Denuncias de un ciudadano
-**Estado:** PENDIENTE
+**Estado:** HECHA (2026-10-28 · 7e5e06f)
 **Objetivo:** buscar por DNI (E4).
 **Tareas sugeridas:** `BusquedaViewModel` + test; `BusquedaActivity` (campo DNI, botón Buscar, RecyclerView reutilizando `DenunciaAdapter`, mensaje "Sin denuncias para este DNI"); tap → Detalle.
 **Criterios de aceptación:** test: DNI inválido no consulta; lista vacía produce estado vacío; build verde.
 **Comandos de verificación:** `./gradlew testDebugUnitTest assembleDebug`
-**Evidencia:** —
+**Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 16s (tests de BusquedaViewModelTest verdes, app-debug.apk generado). Commit 7e5e06f.
 
 ## F6 · app-docs — Pulido y documentación
 **Estado:** PENDIENTE
