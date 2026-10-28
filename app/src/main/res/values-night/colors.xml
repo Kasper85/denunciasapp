@@ -30,15 +30,4 @@
     <color name="tipo_acoso_bg">#3D1429</color>
     <color name="tipo_otro">#94A3B8</color>
     <color name="tipo_otro_bg">#1E293B</color>
-
-    <!-- Compatibilidad temporal con pantallas actuales -->
-    <color name="black">#FFFFFFFF</color>
-    <color name="white">#162232</color>
-    <color name="purple_200">#8DB8EA</color>
-    <color name="purple_500">#8DB8EA</color>
-    <color name="purple_700">#D6E4F5</color>
-    <color name="teal_200">#4ADE80</color>
-    <color name="teal_700">#4ADE80</color>
-    <color name="gray_text">#9FB0C5</color>
-    <color name="card_stroke">#33465C</color>
 </resources>
