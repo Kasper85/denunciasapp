@@ -9,3 +9,11 @@ build/
 .externalNativeBuild
 .cxx
 local.properties
+
+# Documentos de trabajo del agente
+*.md
+!README.md
+odd/
+docs/
+openspec/
+.atl/
