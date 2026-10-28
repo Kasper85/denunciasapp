@@ -50,4 +50,9 @@ object FormatoFecha {
             }
         }
     }
+
+    fun formatearAmigable(
+        fechaIso: String?,
+        ahoraMillis: Long = System.currentTimeMillis()
+    ): String = formatear(fechaIso, ahoraMillis)
 }

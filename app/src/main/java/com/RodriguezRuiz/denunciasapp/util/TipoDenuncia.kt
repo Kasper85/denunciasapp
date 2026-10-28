@@ -53,5 +53,7 @@ enum class TipoDenuncia(
             val normalizado = tipo.trim().uppercase()
             return entries.find { it.idTipo == normalizado } ?: OTRO
         }
+
+        fun from(tipo: String?): TipoDenuncia = desdeString(tipo)
     }
 }
