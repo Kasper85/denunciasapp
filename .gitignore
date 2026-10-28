@@ -17,3 +17,8 @@ odd/
 docs/
 openspec/
 .atl/
+
+# Artefactos compilados y entregables
+*.apk
+*.aab
+entregables/
