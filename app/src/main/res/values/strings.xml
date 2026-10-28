@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Denuncias Ciudadanas</string>
     <string name="titulo_lista">Denuncias Registradas</string>
+    <string name="titulo_registro">Registrar Denuncia</string>
+    <string name="titulo_detalle">Detalle de Denuncia</string>
+    <string name="titulo_busqueda">Buscar por DNI</string>
+
     <string name="btn_cargar_mas">Cargar 5 siguientes</string>
     <string name="btn_nueva_denuncia">Nueva denuncia</string>
     <string name="btn_buscar_dni">Buscar por DNI</string>
@@ -11,4 +15,21 @@
     <string name="estado_atendida">Atendida</string>
     <string name="sin_denuncias">No se encontraron denuncias registradas</string>
     <string name="error_generico">Ocurrió un error al cargar los datos</string>
+
+    <!-- Registro -->
+    <string name="label_dni">DNI del ciudadano (8 dígitos)</string>
+    <string name="label_tipo">Tipo de hecho</string>
+    <string name="label_direccion">Dirección</string>
+    <string name="label_descripcion">Descripción</string>
+    <string name="btn_registrar">Registrar Denuncia</string>
+    <string name="registro_exito_formato">Denuncia #%d registrada con éxito</string>
+
+    <!-- Tipos de denuncia (ALCANCE §4.1) -->
+    <string-array name="tipos_denuncia">
+        <item>ROBO</item>
+        <item>ASALTO</item>
+        <item>VANDALISMO</item>
+        <item>ACOSO</item>
+        <item>OTRO</item>
+    </string-array>
 </resources>
