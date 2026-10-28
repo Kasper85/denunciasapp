@@ -46,12 +46,12 @@
 **Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 20s (tests de ListaViewModelTest verdes, app-debug.apk generado de 10.3 MB). Commit fa10f3e.
 
 ## F3 · app-registro — Registrar denuncia
-**Estado:** PENDIENTE
+**Estado:** HECHA (2026-10-28 · eb2cbf5)
 **Objetivo:** formulario de ALCANCE §6.1 Registro.
 **Tareas sugeridas:** `RegistroViewModel` (valida con `Validadores`, llama POST) + test; `activity_registro.xml` (DNI numérico maxLength 8, Spinner con los 5 tipos desde `strings.xml` string-array, dirección, descripción); Toast con id; `setResult(RESULT_OK)` y la lista recarga desde offset 0.
 **Criterios de aceptación:** test: DNI inválido no llama al repositorio y expone error de campo; datos válidos → estado Exito con id; build verde.
 **Comandos de verificación:** `./gradlew testDebugUnitTest assembleDebug`
-**Evidencia:** —
+**Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 17s (tests de RegistroViewModelTest verdes, app-debug.apk generado). Commit eb2cbf5.
 
 ## F4 · app-detalle — Detalle y atender
 **Estado:** PENDIENTE
