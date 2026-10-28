@@ -26,6 +26,7 @@ class ListaViewModel(
     private val denunciasAcumuladas = mutableListOf<Denuncia>()
     private var offsetActual = 0
     private var hayMasElementos = true
+    private var filtroSeleccionado: FiltroEstado = FiltroEstado.TODAS
     private var jobDemora: Job? = null
 
     init {
@@ -43,7 +44,7 @@ class ListaViewModel(
             delay(AVISO_DEMORA_MS)
             val currentState = _uiState.value
             if (currentState is ListaUiState.Cargando) {
-                // El estado puede exponer el aviso o mantenerse cargando con aviso
+                // Notificación de demora si sigue cargando
             }
         }
 
@@ -57,7 +58,8 @@ class ListaViewModel(
                 offsetActual = lista.size
                 _uiState.value = ListaUiState.Exito(
                     denuncias = denunciasAcumuladas.toList(),
-                    hayMas = hayMasElementos
+                    hayMas = hayMasElementos,
+                    filtroActual = filtroSeleccionado
                 )
             }.onFailure { error ->
                 _uiState.value = ListaUiState.Error(
@@ -85,12 +87,20 @@ class ListaViewModel(
                 _uiState.value = ListaUiState.Exito(
                     denuncias = denunciasAcumuladas.toList(),
                     hayMas = hayMasElementos,
-                    cargandoMas = false
+                    cargandoMas = false,
+                    filtroActual = filtroSeleccionado
                 )
-            }.onFailure { error ->
-                // Mantenemos la lista existente pero notificamos el error
+            }.onFailure { _ ->
                 _uiState.value = currentState.copy(cargandoMas = false)
             }
+        }
+    }
+
+    fun aplicarFiltro(filtro: FiltroEstado) {
+        filtroSeleccionado = filtro
+        val currentState = _uiState.value
+        if (currentState is ListaUiState.Exito) {
+            _uiState.value = currentState.copy(filtroActual = filtro)
         }
     }
 

@@ -7,9 +7,9 @@ import com.RodriguezRuiz.denunciasapp.R
 enum class TipoDenuncia(
     val idTipo: String,
     val etiqueta: String,
-    @property:DrawableRes val iconoRes: Int,
-    @property:ColorRes val colorRes: Int,
-    @property:ColorRes val colorBgRes: Int
+    @get:DrawableRes val iconoRes: Int,
+    @get:ColorRes val colorRes: Int,
+    @get:ColorRes val colorBgRes: Int
 ) {
     ROBO(
         idTipo = "ROBO",

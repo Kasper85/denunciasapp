@@ -39,14 +39,14 @@ class ListaViewModelTest {
     private lateinit var fakeRepository: FakeDenunciaRepository
     private lateinit var viewModel: ListaViewModel
 
-    private fun crearDenuncia(id: Int) = Denuncia(
+    private fun crearDenuncia(id: Int, estado: Int = 1) = Denuncia(
         id = id,
         dni = "12345678",
         fecha = "2026-10-28T09:00:00",
         tipo = "ROBO",
         direccion = "Calle $id",
         descripcion = "Descripcion $id",
-        estado = 1
+        estado = estado
     )
 
     @Before
@@ -110,5 +110,32 @@ class ListaViewModelTest {
         assertTrue(state is ListaUiState.Error)
         val error = state as ListaUiState.Error
         assertEquals("Fallo de red en el servidor", error.mensaje)
+    }
+
+    @Test
+    fun aplicarFiltro_pendientesYAtendidas_filtraLocalmenteSinAfectarTotal() = runTest {
+        val d1 = crearDenuncia(1, estado = 1) // Pendiente
+        val d2 = crearDenuncia(2, estado = 0) // Atendida
+        val d3 = crearDenuncia(3, estado = 1) // Pendiente
+        fakeRepository.respuestas[Pair(0, 5)] = Result.success(listOf(d1, d2, d3))
+
+        viewModel.cargarInicial()
+
+        // Por defecto: TODAS
+        val stateTodas = viewModel.uiState.value as ListaUiState.Exito
+        assertEquals(3, stateTodas.denunciasFiltradas.size)
+        assertEquals(3, stateTodas.totalCargadas)
+
+        // Filtro PENDIENTES
+        viewModel.aplicarFiltro(FiltroEstado.PENDIENTES)
+        val statePendientes = viewModel.uiState.value as ListaUiState.Exito
+        assertEquals(2, statePendientes.denunciasFiltradas.size)
+        assertEquals(3, statePendientes.totalCargadas)
+
+        // Filtro ATENDIDAS
+        viewModel.aplicarFiltro(FiltroEstado.ATENDIDAS)
+        val stateAtendidas = viewModel.uiState.value as ListaUiState.Exito
+        assertEquals(1, stateAtendidas.denunciasFiltradas.size)
+        assertEquals(3, stateAtendidas.totalCargadas)
     }
 }

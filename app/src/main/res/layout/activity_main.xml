@@ -1,149 +1,330 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F8FAFC">
+    android:background="@color/background">
 
-    <!-- Barra de acciones superiores: Nueva Denuncia y Buscar por DNI -->
-    <LinearLayout
+    <!-- AppBar con Encabezado Institucional y Filtros -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:elevation="4dp"
-        android:orientation="horizontal"
-        android:padding="12dp">
+        android:background="@color/surface"
+        app:elevation="2dp">
 
-        <Button
-            android:id="@+id/btnNuevaDenuncia"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
-            android:layout_weight="1"
-            android:text="@string/btn_nueva_denuncia" />
-
-        <Button
-            android:id="@+id/btnBuscarDni"
-            style="@style/Widget.Material3.Button.TonalButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_weight="1"
-            android:text="@string/btn_buscar_dni" />
-    </LinearLayout>
-
-    <!-- Contenedor principal con FrameLayout para lista / carga / error -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <!-- RecyclerView -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvDenuncias"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingVertical="8dp"
-            tools:listitem="@layout/item_denuncia" />
-
-        <!-- Vista de Carga Inicial -->
+        <!-- Encabezado de Marca -->
         <LinearLayout
-            android:id="@+id/layoutCargando"
+            android:id="@+id/layoutHeader"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="24dp"
-            android:visibility="gone"
-            tools:visibility="visible">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="8dp">
 
-            <ProgressBar
+            <!-- Escudo institucional -->
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="@string/desc_icono_escudo"
+                app:srcCompat="@drawable/ic_escudo"
+                app:tint="@color/primary" />
+
+            <!-- Título y Subtítulo -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/titulo_lista"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/subtitulo_serenazgo"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Botón de Búsqueda -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBuscarDni"
+                style="@style/Widget.Material3.Button.IconButton"
                 android:layout_width="48dp"
-                android:layout_height="48dp" />
-
-            <TextView
-                android:id="@+id/tvAvisoDemora"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="@string/aviso_demora_servidor"
-                android:textColor="@color/gray_text"
-                android:textSize="13sp"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                android:layout_height="48dp"
+                android:contentDescription="@string/desc_buscar_dni"
+                app:icon="@drawable/ic_buscar"
+                app:iconTint="@color/text_primary" />
         </LinearLayout>
 
-        <!-- Vista de Error -->
+        <!-- Fila de Filtros y Resumen de Conteo -->
         <LinearLayout
-            android:id="@+id/layoutError"
+            android:id="@+id/layoutFiltros"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp"
-            android:visibility="gone">
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="8dp">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupFiltros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipTodas"
+                    style="@style/Widget.DenunciasApp.Chip.Filtro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/filtro_todas" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPendientes"
+                    style="@style/Widget.DenunciasApp.Chip.Filtro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filtro_pendientes" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipAtendidas"
+                    style="@style/Widget.DenunciasApp.Chip.Filtro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filtro_atendidas" />
+            </com.google.android.material.chip.ChipGroup>
 
             <TextView
-                android:id="@+id/tvErrorMensaje"
+                android:id="@+id/tvConteo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/error_generico"
-                android:textColor="#DC2626"
-                android:textSize="15sp" />
-
-            <Button
-                android:id="@+id/btnReintentar"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/btn_reintentar" />
+                android:layout_marginTop="2dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                tools:text="Mostrando 5 de 5 cargadas" />
         </LinearLayout>
 
-    </FrameLayout>
-
-    <!-- Barra inferior: Cargar 5 siguientes / No hay más denuncias -->
-    <LinearLayout
-        android:id="@+id/layoutPaginacion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:elevation="4dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="12dp">
-
-        <ProgressBar
-            android:id="@+id/progressBarPaginacion"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/btnCargarMas"
-            style="@style/Widget.Material3.Button.ElevatedButton"
+        <!-- Barra de progreso para peticiones secundarias -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBarIndeterminate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_cargar_mas" />
-
-        <TextView
-            android:id="@+id/tvNoHayMas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/no_hay_mas_denuncias"
-            android:textColor="@color/gray_text"
-            android:textSize="13sp"
+            android:indeterminate="true"
             android:visibility="gone" />
-    </LinearLayout>
 
-</LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Contenido Principal con SwipeRefreshLayout -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Lista de Denuncias con botón Cargar Más al final -->
+            <LinearLayout
+                android:id="@+id/layoutLista"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvDenuncias"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="88dp"
+                    tools:listitem="@layout/item_denuncia" />
+
+                <!-- Pie de lista: Botón Cargar 5 Siguientes -->
+                <LinearLayout
+                    android:id="@+id/layoutPaginacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/surface"
+                    android:elevation="4dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="10dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCargarMas"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:text="@string/btn_cargar_mas" />
+
+                    <TextView
+                        android:id="@+id/tvNoHayMas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/todas_denuncias_vistas"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Estado Cargando Inicial -->
+            <LinearLayout
+                android:id="@+id/layoutCargando"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:visibility="gone">
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:indeterminate="true" />
+
+                <!-- Banner aviso demora > 5 s -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAvisoDemora"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/outline"
+                    app:strokeWidth="1dp"
+                    app:cardBackgroundColor="@color/surface_variant">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/ic_alerta"
+                            app:tint="@color/estado_pendiente" />
+
+                        <TextView
+                            android:id="@+id/tvAvisoDemora"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:text="@string/aviso_demora_servidor"
+                            android:textColor="@color/text_primary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Estado Vacío -->
+            <LinearLayout
+                android:id="@+id/layoutVacio"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:importantForAccessibility="no"
+                    app:srcCompat="@drawable/ic_vacio"
+                    app:tint="@color/text_secondary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/sin_denuncias"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRegistrarPrimera"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/btn_registrar_primera" />
+            </LinearLayout>
+
+            <!-- Estado Error -->
+            <LinearLayout
+                android:id="@+id/layoutError"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:importantForAccessibility="no"
+                    app:srcCompat="@drawable/ic_wifi_off"
+                    app:tint="@color/error" />
+
+                <TextView
+                    android:id="@+id/tvErrorMensaje"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/error_generico"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnReintentar"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/btn_reintentar" />
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- Extended FAB para Nueva Denuncia -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabNuevaDenuncia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:text="@string/btn_nueva_denuncia"
+        app:icon="@drawable/ic_agregar" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

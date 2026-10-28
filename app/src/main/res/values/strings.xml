@@ -1,44 +1,67 @@
 <resources>
     <string name="app_name">Denuncias Ciudadanas</string>
-    <string name="titulo_lista">Denuncias Registradas</string>
-    <string name="titulo_registro">Registrar Denuncia</string>
-    <string name="titulo_detalle">Detalle de Denuncia</string>
+    <string name="titulo_lista">Denuncias ciudadanas</string>
+    <string name="subtitulo_serenazgo">Serenazgo · Chiclayo</string>
+    <string name="titulo_registro">Nueva denuncia</string>
+    <string name="titulo_detalle">Detalle de denuncia</string>
     <string name="titulo_busqueda">Buscar por DNI</string>
 
     <string name="btn_cargar_mas">Cargar 5 siguientes</string>
     <string name="btn_nueva_denuncia">Nueva denuncia</string>
     <string name="btn_buscar_dni">Buscar por DNI</string>
     <string name="no_hay_mas_denuncias">No hay más denuncias</string>
+    <string name="todas_denuncias_vistas">Ya viste todas las denuncias</string>
     <string name="aviso_demora_servidor">El servidor puede tardar hasta 1 minuto en responder la primera vez</string>
     <string name="btn_reintentar">Reintentar</string>
     <string name="estado_pendiente">Pendiente</string>
     <string name="estado_atendida">Atendida</string>
-    <string name="sin_denuncias">No se encontraron denuncias registradas</string>
+    <string name="sin_denuncias">Aún no hay denuncias registradas</string>
+    <string name="btn_registrar_primera">Registrar la primera</string>
     <string name="error_generico">Ocurrió un error al cargar los datos</string>
 
+    <!-- Filtros de lista -->
+    <string name="filtro_todas">Todas</string>
+    <string name="filtro_pendientes">Pendientes</string>
+    <string name="filtro_atendidas">Atendidas</string>
+    <string name="resumen_conteo_formato">Mostrando %1$d de %2$d cargadas</string>
+
     <!-- Registro -->
-    <string name="label_dni">DNI del ciudadano (8 dígitos)</string>
+    <string name="seccion_quien">¿Quién denuncia?</string>
+    <string name="seccion_que_paso">¿Qué pasó?</string>
+    <string name="label_dni">DNI del ciudadano</string>
     <string name="label_tipo">Tipo de hecho</string>
-    <string name="label_direccion">Dirección</string>
-    <string name="label_descripcion">Descripción</string>
-    <string name="btn_registrar">Registrar Denuncia</string>
+    <string name="label_direccion">Dirección exacta</string>
+    <string name="label_descripcion">Descripción detallada</string>
+    <string name="btn_registrar">Registrar denuncia</string>
     <string name="registro_exito_formato">Denuncia #%d registrada con éxito</string>
 
     <!-- Detalle -->
     <string name="btn_atender">Atender denuncia</string>
     <string name="atendida_exito">Denuncia marcada como atendida</string>
     <string name="label_id">Denuncia #%d</string>
-    <string name="label_dni_ciudadano">DNI del Ciudadano</string>
-    <string name="label_fecha">Fecha de Registro</string>
-    <string name="label_tipo_hecho">Tipo de Hecho</string>
+    <string name="label_dni_ciudadano">Ciudadano (DNI)</string>
+    <string name="label_fecha">Fecha y hora</string>
+    <string name="label_tipo_hecho">Tipo de hecho</string>
     <string name="label_ubicacion">Dirección</string>
-    <string name="label_detalle_descripcion">Descripción</string>
+    <string name="label_detalle_descripcion">Descripción completa</string>
+    <string name="banner_pendiente">Pendiente de atención por serenazgo</string>
+    <string name="banner_atendida">Atendida por serenazgo</string>
+    <string name="dialog_atender_titulo">¿Marcar como atendida?</string>
+    <string name="dialog_atender_mensaje">¿Deseas marcar la denuncia #%d como atendida?</string>
+    <string name="dialog_cancelar">Cancelar</string>
+    <string name="dialog_confirmar">Atender</string>
 
     <!-- Búsqueda -->
-    <string name="hint_ingrese_dni">DNI (8 dígitos)</string>
+    <string name="hint_ingrese_dni">DNI del ciudadano</string>
     <string name="btn_buscar">Buscar</string>
     <string name="sin_denuncias_dni">Sin denuncias para este DNI</string>
-    <string name="ingrese_dni_para_buscar">Ingrese un DNI de 8 dígitos para consultar sus denuncias</string>
+    <string name="ingrese_dni_para_buscar">Escribe un DNI de 8 dígitos para consultar sus denuncias</string>
+    <string name="resultados_conteo_formato">%1$d denuncias encontradas para el DNI %2$s</string>
+
+    <!-- Accesibilidad -->
+    <string name="desc_buscar_dni">Buscar por DNI</string>
+    <string name="desc_icono_escudo">Escudo de serenazgo</string>
+    <string name="desc_navegar_atras">Volver</string>
 
     <!-- Tipos de denuncia (ALCANCE §4.1) -->
     <string-array name="tipos_denuncia">

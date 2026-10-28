@@ -4,79 +4,141 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="12dp"
+    android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="6dp"
     android:clickable="true"
     android:focusable="true"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="2dp"
-    app:strokeColor="@color/card_stroke"
-    app:strokeWidth="1dp">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/outline"
+    app:strokeWidth="1dp"
+    app:cardBackgroundColor="@color/surface">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="14dp">
+        android:orientation="horizontal">
 
-        <!-- Fila superior: ID + Tipo y Estado -->
+        <!-- Barra lateral de 4 dp en estado_pendiente -->
+        <View
+            android:id="@+id/viewBarraPendiente"
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:background="@color/estado_pendiente"
+            android:visibility="visible"
+            tools:visibility="visible" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="14dp">
 
-            <TextView
-                android:id="@+id/tvId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                tools:text="#12" />
+            <!-- Cuadro de ícono por tipo (44x44 dp) -->
+            <FrameLayout
+                android:id="@+id/layoutIconoTipo"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_icono_tipo">
 
-            <TextView
-                android:id="@+id/tvTipo"
+                <ImageView
+                    android:id="@+id/ivIconoTipo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:importantForAccessibility="no"
+                    app:srcCompat="@drawable/ic_robo"
+                    app:tint="@color/tipo_robo" />
+            </FrameLayout>
+
+            <!-- Centro: Titulo (#id · TIPO), Dirección, Fecha amigable -->
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="@color/purple_700"
-                tools:text="ROBO" />
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/tvTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="#12 · ROBO" />
+
+                <!-- Dirección con icono de ubicación -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_marginEnd="4dp"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/ic_ubicacion"
+                        app:tint="@color/text_secondary" />
+
+                    <TextView
+                        android:id="@+id/tvDireccion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="13sp"
+                        tools:text="Av. Balta 123, Chiclayo" />
+                </LinearLayout>
+
+                <!-- Fecha amigable con icono de calendario -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_marginEnd="4dp"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/ic_calendario"
+                        app:tint="@color/text_secondary" />
+
+                    <TextView
+                        android:id="@+id/tvFecha"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        tools:text="Hoy, 09:15" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Chip de Estado -->
             <TextView
                 android:id="@+id/tvEstado"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_badge_estado"
+                android:background="@drawable/bg_chip_estado"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
                 android:text="@string/estado_pendiente"
                 android:textColor="@color/estado_pendiente"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 tools:text="Pendiente" />
+
         </LinearLayout>
-
-        <!-- Dirección -->
-        <TextView
-            android:id="@+id/tvDireccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            tools:text="Av. Balta 123, Chiclayo" />
-
-        <!-- Fecha -->
-        <TextView
-            android:id="@+id/tvFecha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/gray_text"
-            android:textSize="12sp"
-            tools:text="2026-10-28 09:15:00" />
 
     </LinearLayout>
 
