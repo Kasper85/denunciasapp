@@ -7,8 +7,8 @@
 ## Prerrequisitos [MANUAL] (los hace el usuario antes de arrancar)
 
 - [x] M1. Proyecto creado en Android Studio en esta carpeta (paquete `com.RodriguezRuiz.denunciasapp`, minSdk 24, AGP 9, Kotlin DSL). Vino con plantilla **Compose** → F0 lo convierte a Views.
-- [ ] M2. Repo remoto `denunciasapp` en GitHub. No bloquea: sin `origin` el agente trabaja local.
-- [ ] M3. `API_BASE_URL` en `gradle.properties` — si falta, el agente agrega `API_BASE_URL=http://10.0.2.2:8080/`.
+- [x] M2. Repo remoto `denunciasapp` en GitHub (`https://github.com/Kasper85/denunciasapp.git`). Configurado y sincronizado en `main`.
+- [ ] M3. `API_BASE_URL` en `gradle.properties` — configurado con default `http://10.0.2.2:8080/`. El usuario lo cambiará por la URL de Render para la entrega final.
 
 ---
 
@@ -70,12 +70,12 @@
 **Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 16s (tests de BusquedaViewModelTest verdes, app-debug.apk generado). Commit 7e5e06f.
 
 ## F6 · app-docs — Pulido y documentación
-**Estado:** PENDIENTE
+**Estado:** HECHA (2026-10-28 · 819dc74)
 **Objetivo:** dejar la app presentable y explicable.
 **Tareas sugeridas:** revisar que todas las pantallas tengan carga/error/reintento; títulos en la ActionBar; `README.md` (cómo cambiar `API_BASE_URL`, emulador vs celular, generar APK); `docs/EXPLICACION.md` (arquitectura en capas con diagrama ASCII, flujo de "Cargar 5 siguientes" de botón a SQL, Retrofit/corrutinas/ViewModel explicado simple, por qué timeouts de 90 s y cleartext, 8–10 preguntas probables del profesor con respuesta corta).
 **Criterios de aceptación:** build y tests verdes; ambos documentos existen.
 **Comandos de verificación:** `./gradlew testDebugUnitTest assembleDebug`
-**Evidencia:** —
+**Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 6s (todas las pruebas unitarias verdes, app-debug.apk generado, README.md y docs/EXPLICACION.md creados). Commit 819dc74.
 
 ## F7 · app-e2e-check — Prueba contra la API real
 **Estado:** BLOQUEADA — `[MANUAL]` requiere la URL de Render en `gradle.properties` y un emulador/celular.
@@ -95,4 +95,13 @@
 - 2026-10-28 · F0 · Eliminación de gradle/gradle-daemon-jvm.properties · Forzaba descarga de JDK 25 no disponible; se usa JDK 17 local configurado en JAVA_HOME.
 
 ## Estado final
-<!-- El agente escribe aquí el resumen al terminar el loop y los [MANUAL] pendientes -->
+Todas las features de desarrollo autónomo (F0 a F6) han sido completadas con éxito, verificadas con pruebas automatizadas en JVM y compiladas en el APK ejecutable `app/build/outputs/apk/debug/app-debug.apk`. 
+
+El repositorio remoto de GitHub (`https://github.com/Kasper85/denunciasapp.git`) está sincronizado con la rama `main`.
+
+### Tareas manuales pendientes para el usuario [MANUAL]:
+1. **Configurar la URL de Render**: En `gradle.properties`, cambiar `API_BASE_URL` por la URL pública de tu API desplegada en Render (ej. `API_BASE_URL=https://denunciaservice-rodriguezruiz.onrender.com/`).
+2. **Ejecutar en Emulador o Celular Físico**:
+   - Abrir Android Studio o ejecutar `.\gradlew.bat installDebug` con el dispositivo conectado.
+   - Completar la checklist de verificación interactiva de F7 (carga inicial, paginar con "Cargar 5 siguientes", registrar denuncia, verificar detalle y atenderla, buscar por DNI).
+3. **Presentación oral**: Utilizar `docs/EXPLICACION.md` para repasar la arquitectura, el flujo de "Cargar 5 siguientes" y las respuestas a las preguntas de sustentación.
