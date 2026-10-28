@@ -54,12 +54,12 @@
 **Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 17s (tests de RegistroViewModelTest verdes, app-debug.apk generado). Commit eb2cbf5.
 
 ## F4 · app-detalle — Detalle y atender
-**Estado:** PENDIENTE
+**Estado:** HECHA (2026-10-28 · 991ea9a)
 **Objetivo:** ver una denuncia y marcarla atendida (PUT).
 **Tareas sugeridas:** `DetalleViewModel` (cargar por id, atender) + test; `DetalleActivity` recibe `EXTRA_ID`; botón "Atender denuncia" solo si `estado==1`; tras atender muestra "Atendida", deshabilita botón y devuelve `RESULT_OK`.
 **Criterios de aceptación:** test: atender cambia estado a 0 y oculta acción; 404 muestra error; build verde.
 **Comandos de verificación:** `./gradlew testDebugUnitTest assembleDebug`
-**Evidencia:** —
+**Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 18s (tests de DetalleViewModelTest verdes, app-debug.apk generado). Commit 991ea9a.
 
 ## F5 · app-busqueda — Denuncias de un ciudadano
 **Estado:** PENDIENTE
