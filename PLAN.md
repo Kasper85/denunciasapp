@@ -24,7 +24,7 @@
 **Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 46s; `git ls-files local.properties` vacío. Commit inicial d91e556.
 
 ## F1 · app-data — Capa de datos y configuración
-**Estado:** PENDIENTE
+**Estado:** HECHA (2026-10-28 · 37257c1)
 **Objetivo:** la app sabe hablar con la API y está probado sin servidor real.
 **Tareas sugeridas:**
 - T1 Version catalog + `app/build.gradle.kts`: dependencias de ALCANCE §6, `buildFeatures { viewBinding = true; buildConfig = true }`, `buildConfigField("String","API_BASE_URL", "\"${project.findProperty("API_BASE_URL") ?: "http://10.0.2.2:8080/"}\"")`.
@@ -35,7 +35,7 @@
 - T6 `util/Validadores` (DNI 8 dígitos, campos no vacíos, máx. longitudes) + tests.
 **Criterios de aceptación:** tests T5 y T6 verdes; `assembleDebug` compila.
 **Comandos de verificación:** `./gradlew testDebugUnitTest assembleDebug`
-**Evidencia:** —
+**Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 17s (tests de repositorio y validadores verdes, app-debug.apk generado). Commit 37257c1.
 
 ## F2 · app-lista — Lista paginada (pantalla principal)
 **Estado:** PENDIENTE
@@ -93,7 +93,6 @@
 ## Decisiones
 <!-- El agente agrega aquí: fecha · feature · decisión · porqué (una línea) -->
 - 2026-10-28 · F0 · Eliminación de gradle/gradle-daemon-jvm.properties · Forzaba descarga de JDK 25 no disponible; se usa JDK 17 local configurado en JAVA_HOME.
-
 
 ## Estado final
 <!-- El agente escribe aquí el resumen al terminar el loop y los [MANUAL] pendientes -->
