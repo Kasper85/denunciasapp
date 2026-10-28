@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Estados de denuncia -->
+    <color name="estado_pendiente">#D97706</color>
+    <color name="estado_pendiente_bg">#FEF3C7</color>
+    <color name="estado_atendida">#16A34A</color>
+    <color name="estado_atendida_bg">#DCFCE7</color>
+
+    <color name="gray_text">#64748B</color>
+    <color name="card_stroke">#E2E8F0</color>
 </resources>

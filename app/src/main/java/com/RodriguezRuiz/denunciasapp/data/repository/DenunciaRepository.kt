@@ -8,7 +8,7 @@ import com.RodriguezRuiz.denunciasapp.data.remote.RetrofitClient
 import com.google.gson.Gson
 import retrofit2.Response
 
-class DenunciaRepository(
+open class DenunciaRepository(
     private val apiService: ApiService = RetrofitClient.apiService,
     private val gson: Gson = Gson()
 ) {
@@ -29,7 +29,7 @@ class DenunciaRepository(
         return Exception("Error en la solicitud: ${response.code()} ${response.message()}".trim())
     }
 
-    suspend fun listarDenuncias(offset: Int = 0, limit: Int = 5): Result<List<Denuncia>> {
+    open suspend fun listarDenuncias(offset: Int = 0, limit: Int = 5): Result<List<Denuncia>> {
         return try {
             val response = apiService.listarDenuncias(offset = offset, limit = limit)
             if (response.isSuccessful) {
@@ -42,7 +42,7 @@ class DenunciaRepository(
         }
     }
 
-    suspend fun registrarDenuncia(request: DenunciaRequest): Result<Denuncia> {
+    open suspend fun registrarDenuncia(request: DenunciaRequest): Result<Denuncia> {
         return try {
             val response = apiService.registrarDenuncia(request)
             if (response.isSuccessful && response.body() != null) {
@@ -55,7 +55,7 @@ class DenunciaRepository(
         }
     }
 
-    suspend fun obtenerDenunciaPorId(id: Int): Result<Denuncia> {
+    open suspend fun obtenerDenunciaPorId(id: Int): Result<Denuncia> {
         return try {
             val response = apiService.obtenerDenunciaPorId(id)
             if (response.isSuccessful && response.body() != null) {
@@ -68,7 +68,7 @@ class DenunciaRepository(
         }
     }
 
-    suspend fun listarPorCiudadano(dni: String): Result<List<Denuncia>> {
+    open suspend fun listarPorCiudadano(dni: String): Result<List<Denuncia>> {
         return try {
             val response = apiService.listarPorCiudadano(dni)
             if (response.isSuccessful) {
@@ -81,7 +81,7 @@ class DenunciaRepository(
         }
     }
 
-    suspend fun atenderDenuncia(id: Int): Result<Denuncia> {
+    open suspend fun atenderDenuncia(id: Int): Result<Denuncia> {
         return try {
             val response = apiService.atenderDenuncia(id)
             if (response.isSuccessful && response.body() != null) {

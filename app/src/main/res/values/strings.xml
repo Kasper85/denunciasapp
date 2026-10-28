@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">DenunciasApp</string>
+    <string name="app_name">Denuncias Ciudadanas</string>
+    <string name="titulo_lista">Denuncias Registradas</string>
+    <string name="btn_cargar_mas">Cargar 5 siguientes</string>
+    <string name="btn_nueva_denuncia">Nueva denuncia</string>
+    <string name="btn_buscar_dni">Buscar por DNI</string>
+    <string name="no_hay_mas_denuncias">No hay más denuncias</string>
+    <string name="aviso_demora_servidor">El servidor puede tardar hasta 1 minuto en responder la primera vez</string>
+    <string name="btn_reintentar">Reintentar</string>
+    <string name="estado_pendiente">Pendiente</string>
+    <string name="estado_atendida">Atendida</string>
+    <string name="sin_denuncias">No se encontraron denuncias registradas</string>
+    <string name="error_generico">Ocurrió un error al cargar los datos</string>
 </resources>
