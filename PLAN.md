@@ -13,7 +13,7 @@
 ---
 
 ## F0 · app-git — Repositorio inicial (lo hace el agente)
-**Estado:** PENDIENTE
+**Estado:** HECHA (2026-10-28 · d91e556)
 **Tareas:**
 - Verificar que existen `settings.gradle.kts` y `app/build.gradle.kts`.
 - **Convertir de Compose a Views** (el enunciado exige RecyclerView): en `app/build.gradle.kts` quitar `alias(libs.plugins.kotlin.compose)`, `buildFeatures { compose = true }` y todas las `androidx.compose.*` / `activity.compose`; en `libs.versions.toml` quitar esas entradas y el plugin `kotlin-compose`; borrar `ui/theme/` y reemplazar `MainActivity.kt` por una Activity mínima con ViewBinding (luego F2 la convierte en la lista); el tema `Theme.DenunciasApp` en `themes.xml` pasa a heredar de `Theme.Material3.DayNight.NoActionBar` (requiere la dependencia `com.google.android.material:material`); borrar `ExampleInstrumentedTest` si referencia Compose. Dejar `ExampleUnitTest` y que `testDebugUnitTest` pase. No agregar el plugin `org.jetbrains.kotlin.android` (AGP 9 trae Kotlin integrado).
@@ -21,7 +21,7 @@
 - Si no hay `.git` → `git init -b main`. Asegurar que `.gitignore` excluye `local.properties`, `.gradle/`, `build/`, `.idea/`, `*.iml`. Agregar `API_BASE_URL` a `gradle.properties` si falta. Commit `chore: proyecto inicial de Android Studio`.
 **Criterios de aceptación:** el proyecto ya no usa Compose; `.\gradlew.bat assembleDebug` compila; hay un commit en `main`; `local.properties` no está versionado.
 **Comandos de verificación:** `.\gradlew.bat assembleDebug`; `git ls-files local.properties` (debe salir vacío)
-**Evidencia:** —
+**Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 46s; `git ls-files local.properties` vacío. Commit inicial d91e556.
 
 ## F1 · app-data — Capa de datos y configuración
 **Estado:** PENDIENTE
@@ -92,6 +92,8 @@
 
 ## Decisiones
 <!-- El agente agrega aquí: fecha · feature · decisión · porqué (una línea) -->
+- 2026-10-28 · F0 · Eliminación de gradle/gradle-daemon-jvm.properties · Forzaba descarga de JDK 25 no disponible; se usa JDK 17 local configurado en JAVA_HOME.
+
 
 ## Estado final
 <!-- El agente escribe aquí el resumen al terminar el loop y los [MANUAL] pendientes -->
