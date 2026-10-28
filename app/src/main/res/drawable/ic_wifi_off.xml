@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Icono de sin conexión / error de red -->
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M23.64,7c-0.45,-0.34 -4.93,-4 -11.64,-4 -1.5,0 -2.8,0.19 -3.95,0.47l3.29,3.29c0.21,-0.02 0.43,-0.04 0.66,-0.04 3.8,0 7.05,1.55 8.79,2.81L23.64,7zM3.27,1.44L2,2.72l2.05,2.06C1.91,5.76 0.59,6.82 0.36,7l11.63,14.49 0.01,0.01 0.01,-0.01 3.9,-4.86 4.37,4.37 1.27,-1.27L3.27,1.44zM12,18.59L3.51,8c1.37,-1.02 3.63,-1.98 6.06,-2.06l8.83,8.83L12,18.59z" />
+</vector>
