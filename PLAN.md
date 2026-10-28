@@ -38,12 +38,12 @@
 **Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 17s (tests de repositorio y validadores verdes, app-debug.apk generado). Commit 37257c1.
 
 ## F2 · app-lista — Lista paginada (pantalla principal)
-**Estado:** PENDIENTE
+**Estado:** HECHA (2026-10-28 · fa10f3e)
 **Objetivo:** ver denuncias de 5 en 5 (ALCANCE §6.1 Lista).
 **Tareas sugeridas:** `ListaViewModel` (offset acumulado, `hayMas`, estado) con test usando repositorio falso; `DenunciaAdapter` + `item_denuncia.xml` (etiqueta Pendiente/Atendida con colores); `ListaActivity` como launcher (reemplaza la `MainActivity` generada o la reutiliza); botones Cargar 5 siguientes / Nueva denuncia / Buscar por DNI; mensaje "servidor puede tardar" si >5 s; reintentar.
 **Criterios de aceptación:** test del ViewModel: primera carga offset 0, segunda offset 5, `hayMas=false` cuando llegan <5; build verde.
 **Comandos de verificación:** `./gradlew testDebugUnitTest assembleDebug`
-**Evidencia:** —
+**Evidencia:** `.\gradlew.bat testDebugUnitTest assembleDebug` BUILD SUCCESSFUL in 20s (tests de ListaViewModelTest verdes, app-debug.apk generado de 10.3 MB). Commit fa10f3e.
 
 ## F3 · app-registro — Registrar denuncia
 **Estado:** PENDIENTE
