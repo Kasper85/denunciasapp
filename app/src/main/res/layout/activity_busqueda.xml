@@ -1,101 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC"
-    android:orientation="vertical">
+    android:background="@color/background">
 
-    <!-- Barra de búsqueda superior -->
-    <LinearLayout
+    <!-- AppBar con Toolbar y Campo de Búsqueda -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:elevation="4dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="12dp">
+        android:background="@color/surface"
+        app:elevation="2dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilDniBusqueda"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="0dp"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_atras"
+            app:navigationContentDescription="@string/desc_navegar_atras"
+            app:title="@string/titulo_busqueda"
+            app:titleTextColor="@color/text_primary" />
+
+        <!-- Fila de búsqueda con TextInputLayout y Botón -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/hint_ingrese_dni"
-            app:counterEnabled="true"
-            app:counterMaxLength="8"
-            app:errorEnabled="true">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="12dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etDniBusqueda"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDniBusqueda"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionSearch"
-                android:inputType="number"
-                android:maxLength="8" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_weight="1"
+                android:hint="@string/hint_ingrese_dni"
+                app:startIconDrawable="@drawable/ic_buscar"
+                app:startIconTint="@color/text_secondary"
+                app:counterEnabled="true"
+                app:counterMaxLength="8"
+                app:errorEnabled="true">
 
-        <Button
-            android:id="@+id/btnBuscar"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDniBusqueda"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionSearch"
+                    android:inputType="number"
+                    android:maxLength="8" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBuscar"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="12dp"
+                android:text="@string/btn_buscar" />
+        </LinearLayout>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBarIndeterminate"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="14dp"
-            android:text="@string/btn_buscar" />
-    </LinearLayout>
+            android:indeterminate="true"
+            android:visibility="gone" />
 
-    <!-- Contenedor de estados -->
+    </com.google.android.material.appbar.AppBarLayout>
+
     <FrameLayout
+        android:id="@+id/frameContenido"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Estado Inicial (Idle) -->
-        <TextView
-            android:id="@+id/tvEstadoInicial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="24dp"
-            android:text="@string/ingrese_dni_para_buscar"
-            android:textColor="@color/gray_text"
-            android:textSize="15sp" />
-
-        <!-- RecyclerView para resultados -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvResultados"
+        <!-- Lista de Resultados con Encabezado de conteo -->
+        <LinearLayout
+            android:id="@+id/layoutResultados"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingVertical="8dp"
+            android:orientation="vertical"
             android:visibility="gone"
-            tools:listitem="@layout/item_denuncia" />
+            tools:visibility="visible">
 
-        <!-- Estado Vacío -->
+            <TextView
+                android:id="@+id/tvConteoResultados"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="4dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                tools:text="3 denuncias encontradas para el DNI 45678912" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvResultados"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clipToPadding="false"
+                android:paddingTop="4dp"
+                android:paddingBottom="24dp"
+                tools:listitem="@layout/item_denuncia" />
+        </LinearLayout>
+
+        <!-- Estado Inicial Ilustrado -->
+        <LinearLayout
+            android:id="@+id/layoutEstadoInicial"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="32dp">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:importantForAccessibility="no"
+                app:srcCompat="@drawable/ic_buscar"
+                app:tint="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/tvEstadoInicial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:lineSpacingExtra="3dp"
+                android:text="@string/ingrese_dni_para_buscar"
+                android:textColor="@color/text_secondary"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <!-- Estado Vacío Ilustrado -->
         <LinearLayout
             android:id="@+id/layoutVacio"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="24dp"
+            android:padding="32dp"
             android:visibility="gone">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:importantForAccessibility="no"
+                app:srcCompat="@drawable/ic_vacio"
+                app:tint="@color/text_secondary" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:text="@string/sin_denuncias_dni"
-                android:textColor="@color/gray_text"
+                android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Estado Cargando -->
+        <!-- Estado Cargando con Aviso Demora -->
         <LinearLayout
             android:id="@+id/layoutCargando"
             android:layout_width="match_parent"
@@ -105,20 +178,48 @@
             android:padding="24dp"
             android:visibility="gone">
 
-            <ProgressBar
+            <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:layout_width="48dp"
-                android:layout_height="48dp" />
+                android:layout_height="48dp"
+                android:indeterminate="true" />
 
-            <TextView
-                android:id="@+id/tvAvisoDemora"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardAvisoDemora"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="@string/aviso_demora_servidor"
-                android:textColor="@color/gray_text"
-                android:textSize="13sp"
-                android:visibility="gone" />
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/outline"
+                app:strokeWidth="1dp"
+                app:cardBackgroundColor="@color/surface_variant">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/ic_alerta"
+                        app:tint="@color/estado_pendiente" />
+
+                    <TextView
+                        android:id="@+id/tvAvisoDemora"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="@string/aviso_demora_servidor"
+                        android:textColor="@color/text_primary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
         <!-- Estado Error -->
@@ -131,24 +232,32 @@
             android:padding="24dp"
             android:visibility="gone">
 
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:importantForAccessibility="no"
+                app:srcCompat="@drawable/ic_wifi_off"
+                app:tint="@color/error" />
+
             <TextView
                 android:id="@+id/tvErrorMensaje"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:gravity="center"
                 android:text="@string/error_generico"
-                android:textColor="#DC2626"
+                android:textColor="@color/text_primary"
                 android:textSize="15sp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnReintentar"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/btn_reintentar" />
         </LinearLayout>
 
     </FrameLayout>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
